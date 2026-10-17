@@ -5,57 +5,105 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>You're invited to Loop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@900&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&display=swap">
 <style>
-  :root { --page: #F2F2F7; --panel: #FFFFFF; --raised: #E5E5EA; --text: #000000; --text2: #6E6E73; --accent: #3E63DD; --on-accent: #FFFFFF; }
+  :root {
+    --page: #EEF3F3; --panel: #FFFFFF; --hero: #8FC1C4; --on-hero: #000000; --tint: #DDE8E8;
+    --text: #000000; --muted: #56605F; --peach: #F4B393; --on-peach: #000000; --disc: #FFFFFF; --mark: #000000;
+  }
   @media (prefers-color-scheme: dark) {
-    :root { --page: #000000; --panel: #1C1C1E; --raised: #2C2C2E; --text: #FFFFFF; --text2: #A1A1A6; --accent: #7B8CFF; --on-accent: #0B0F2A; color-scheme: dark; }
+    :root {
+      --page: #101515; --panel: #1C2323; --hero: #1F4446; --on-hero: #FFFFFF; --tint: #2A3434;
+      --text: #FFFFFF; --muted: #A3B1B0; --disc: #1C2323; --mark: #FFFFFF; color-scheme: dark;
+    }
   }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--page); color: var(--text); font: 17px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif; }
-  main { max-width: 420px; margin: 0 auto; padding: 56px 24px 40px; display: flex; flex-direction: column; gap: 20px; }
-  .mark { width: 56px; height: 56px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; }
-  h1 { font-size: 30px; line-height: 1.12; letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
-  p { margin: 0; color: var(--text2); }
-  .button { display: block; text-align: center; text-decoration: none; background: var(--accent); color: var(--on-accent); font-weight: 600; padding: 15px 20px; border-radius: 999px; }
-  .code { background: var(--panel); border-radius: 20px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; }
-  .code span { font-size: 13px; color: var(--text2); }
-  .code strong { font: 600 18px/1.3 ui-monospace, "SF Mono", Menlo, Consolas, monospace; letter-spacing: 0.06em; overflow-wrap: anywhere; user-select: all; }
-  .code button { align-self: flex-start; margin-top: 6px; font: inherit; font-size: 15px; font-weight: 600; color: var(--text); background: var(--raised); border: 0; border-radius: 999px; padding: 8px 16px; cursor: pointer; }
-  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  body { margin: 0; background: var(--page); color: var(--text); font: 500 17px/1.4 'Bricolage Grotesque', system-ui, sans-serif; }
+  .top { background: var(--hero); color: var(--on-hero); border-radius: 0 0 36px 36px; padding: 56px 24px 30px; text-align: center; }
+  .top > * { max-width: 420px; margin-left: auto; margin-right: auto; }
+  .disc { width: 96px; height: 96px; border-radius: 50%; background: var(--disc); display: grid; place-items: center; }
+  h1 { font-size: 26px; font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; margin: 18px auto 0; text-wrap: balance; }
+  .lede { margin-top: 8px; font-size: 16px; font-weight: 600; opacity: 0.75; }
+  main { max-width: 420px; margin: 0 auto; padding: 26px 20px 40px; display: flex; flex-direction: column; gap: 22px; }
+  .step { display: flex; gap: 12px; align-items: flex-start; }
+  .num { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--text); color: var(--page); display: grid; place-items: center; font-size: 14px; font-weight: 800; }
+  .step h2 { margin: 2px 0 0; font-size: 17px; font-weight: 700; line-height: 1.3; }
+  .badges { margin-top: 10px; display: flex; flex-wrap: wrap; align-items: center; gap: 2px; margin-left: -2px; }
+  .badges img { display: block; }
+  .apple { height: 40px; margin: 0 4px 0 2px; }
+  .google { height: 58px; }
+  .code { margin-top: 10px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .code strong { background: var(--panel); border-radius: 22px; padding: 0 16px; height: 44px; display: inline-flex; align-items: center;
+    font: 900 24px/1 'Big Shoulders Display', 'Arial Narrow', sans-serif; letter-spacing: 0.08em; user-select: all; overflow-wrap: anywhere; }
+  .code button { height: 44px; padding: 0 18px; border: 0; border-radius: 22px; background: var(--tint); color: var(--text); font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; }
+  .open { display: flex; align-items: center; justify-content: center; height: 54px; border-radius: 27px; background: var(--peach); color: var(--on-peach);
+    text-decoration: none; font-size: 17px; font-weight: 700; }
+  .foot { text-align: center; font-size: 13px; color: var(--muted); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
   [hidden] { display: none !important; }
 </style>
 </head>
 <body>
-<main>
-  <div class="mark" aria-hidden="true">
-    <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
-      <path d="M22.5 9.2A9.6 9.6 0 1 0 24.6 15" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round"/>
-      <circle cx="23.4" cy="9.8" r="2.4" fill="#FFFFFF"/>
+<header class="top">
+  <div class="disc" aria-hidden="true">
+    <svg width="64" height="64" viewBox="0 0 96 96" fill="none" style="color: var(--mark)">
+      <path d="M86.67 43.94A38.88 38.88 0 1 1 52.06 9.33" stroke="currentColor" stroke-width="17.28" stroke-linecap="round"/>
+      <circle cx="75.49" cy="20.51" r="9.12" fill="currentColor"/>
     </svg>
   </div>
   <h1 id="title">You're invited to a circle on Loop</h1>
-  <p id="lede">Loop is a private app for a group of friends: chat, plans, streaks and shared money.</p>
-  <a id="open" class="button" href="#">Open in Loop</a>
-  <div id="box" class="code">
-    <span>Invite code</span>
-    <strong id="code"></strong>
-    <button id="copy" type="button">Copy</button>
+  <p class="lede" id="lede">Loop is a small app for a group of close friends: chat, plans, streaks and shared money.</p>
+</header>
+<main>
+  <div class="step" id="get">
+    <span class="num">1</span>
+    <div>
+      <h2>Get Loop</h2>
+      <div class="badges">
+        <!-- Official artwork, unaltered. The App Store badge opens TestFlight while Loop is in beta; swap the link for
+             Loop's public TestFlight link or its App Store listing when there is one. -->
+        <a href="https://apps.apple.com/app/testflight/id899247664"><img class="apple" src="app-store-badge.svg" alt="Download on the App Store"></a>
+        <a href="https://play.google.com/apps/internaltest/4701692484387899367"><img class="google" src="google-play-badge.png" alt="Get it on Google Play"></a>
+      </div>
+    </div>
   </div>
-  <p id="help">Don't have Loop yet? Ask the friend who sent this link for the app, then tap the link again.</p>
+  <div class="step" id="enter">
+    <span class="num">2</span>
+    <div>
+      <h2>Open Loop and enter the code</h2>
+      <div class="code"><strong id="code"></strong><button id="copy" type="button">Copy</button></div>
+    </div>
+  </div>
+  <a id="open" class="open" href="#">I have Loop: open it</a>
+  <p class="foot" id="foot">The invite works for 14 days.</p>
 </main>
 <script>
   (function () {
-    var code = new URLSearchParams(location.search).get('c') || '';
+    var params = new URLSearchParams(location.search);
+    var code = params.get('c') || '';
     var byId = function (id) { return document.getElementById(id); };
+    // A name from the link: plain text only, at most 40 characters, always set with textContent.
+    var clean = function (value) {
+      return (value || '').replace(/[\u0000-\u001F\u007F]/g, '').trim().slice(0, 40);
+    };
     // Only what an invite code can be: 8 to 32 letters and digits. Nothing else reaches the page.
     if (!/^[a-zA-Z0-9]{8,32}$/.test(code)) {
       byId('title').textContent = 'This invite link is incomplete';
       byId('lede').textContent = 'Ask your friend to send it again.';
+      byId('get').hidden = true;
+      byId('enter').hidden = true;
       byId('open').hidden = true;
-      byId('box').hidden = true;
-      byId('help').hidden = true;
+      byId('foot').hidden = true;
       return;
     }
+    var from = clean(params.get('from'));
+    var circle = clean(params.get('circle'));
+    if (from && circle) byId('title').textContent = from + ' invited you to ' + circle;
+    else if (from) byId('title').textContent = from + ' invited you to Loop';
+    else if (circle) byId('title').textContent = "You're invited to " + circle;
+    document.title = byId('title').textContent;
     byId('open').href = 'streaks://invite/' + code;
     byId('code').textContent = code;
     byId('copy').addEventListener('click', function () {
