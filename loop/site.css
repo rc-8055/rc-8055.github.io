@@ -1,0 +1,57 @@
+/* The Loop pages: help, privacy and terms. The invite page's teal-and-peach tokens, set for reading. */
+:root {
+  --page: #EEF3F3; --panel: #FFFFFF; --hero: #8FC1C4; --on-hero: #000000; --tint: #DDE8E8;
+  --text: #000000; --muted: #56605F; --line: #C9D6D6; --peach: #F4B393; --on-peach: #000000;
+  --disc: #FFFFFF; --mark: #000000; --error: #B3261E; --link: #1F4446;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page: #101515; --panel: #1C2323; --hero: #1F4446; --on-hero: #FFFFFF; --tint: #2A3434;
+    --text: #FFFFFF; --muted: #A3B1B0; --line: #34403F; --disc: #1C2323; --mark: #FFFFFF; --error: #F2B8B5;
+    --link: #8FC1C4; color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--text); font: 500 17px/1.55 'Bricolage Grotesque', system-ui, sans-serif; }
+.top { background: var(--hero); color: var(--on-hero); border-radius: 0 0 36px 36px; padding: 40px 20px 28px; }
+.top > * { max-width: 680px; margin-left: auto; margin-right: auto; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; color: inherit; text-decoration: none; }
+.brand .disc { width: 36px; height: 36px; border-radius: 50%; background: var(--disc); display: grid; place-items: center; }
+h1 { font-size: 30px; font-weight: 800; line-height: 1.12; letter-spacing: -0.02em; margin: 22px auto 0; text-wrap: balance; }
+.lede { margin-top: 8px; font-size: 16px; font-weight: 600; opacity: 0.8; }
+nav.pages { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+nav.pages a { display: inline-flex; align-items: center; height: 36px; padding: 0 14px; border-radius: 18px; background: var(--tint);
+  color: var(--text); text-decoration: none; font-size: 15px; font-weight: 700; }
+nav.pages a[aria-current="page"] { background: var(--text); color: var(--page); }
+main { max-width: 680px; margin: 0 auto; padding: 24px 20px 48px; }
+h2 { font-size: 21px; font-weight: 800; line-height: 1.25; letter-spacing: -0.01em; margin: 34px 0 8px; }
+h3 { font-size: 17px; font-weight: 700; margin: 20px 0 4px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 12px; padding-left: 22px; }
+li { margin-bottom: 6px; }
+strong { font-weight: 700; }
+.muted, .date { color: var(--muted); }
+.date { font-size: 15px; }
+.panel { background: var(--panel); border-radius: 22px; padding: 18px 20px; margin: 16px 0; }
+.panel > :last-child { margin-bottom: 0; }
+.panel h2:first-child, .panel h3:first-child { margin-top: 0; }
+a { color: var(--link); font-weight: 700; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--text); outline-offset: 3px; }
+.foot { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+.foot a { color: inherit; }
+
+/* The contact form on the help page. */
+form { display: flex; flex-direction: column; gap: 14px; }
+label { display: flex; flex-direction: column; gap: 6px; font-size: 15px; font-weight: 700; }
+input, select, textarea { font: inherit; font-size: 16px; color: var(--text); background: var(--page); border: 1px solid var(--line);
+  border-radius: 14px; padding: 12px 14px; width: 100%; }
+textarea { min-height: 140px; resize: vertical; }
+.hint { font-size: 14px; font-weight: 500; color: var(--muted); }
+button.send { align-self: flex-start; height: 50px; padding: 0 26px; border: 0; border-radius: 25px; background: var(--peach);
+  color: var(--on-peach); font: inherit; font-size: 17px; font-weight: 700; cursor: pointer; }
+button.send[disabled] { opacity: 0.6; cursor: default; }
+.status { font-size: 15px; font-weight: 700; margin: 0; }
+.status.error { color: var(--error); }
+.trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+[hidden] { display: none !important; }
