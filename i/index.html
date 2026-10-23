@@ -113,10 +113,27 @@
     byId('copy').addEventListener('click', function () {
       var button = byId('copy');
       var done = function () { button.textContent = 'Copied'; };
+      // Copy gives the bare code. Where the Clipboard API is missing or refuses (some in-app browsers), it copies from
+      // an off-screen text box instead; only if that fails too is the code on the page selected, to copy by hand.
+      var copyFromBox = function () {
+        var back = document.activeElement;
+        var box = document.createElement('textarea');
+        box.value = code;
+        box.setAttribute('readonly', '');
+        box.style.cssText = 'position: fixed; top: 0; left: -9999px; font-size: 16px;';
+        document.body.appendChild(box);
+        box.select();
+        box.setSelectionRange(0, code.length);
+        var copied = false;
+        try { copied = document.execCommand('copy'); } catch (e) { copied = false; }
+        document.body.removeChild(box);
+        if (back && back.focus) back.focus();
+        if (copied) done(); else window.getSelection().selectAllChildren(byId('code'));
+      };
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(code).then(done, function () { window.getSelection().selectAllChildren(byId('code')); });
+        navigator.clipboard.writeText(code).then(done, copyFromBox);
       } else {
-        window.getSelection().selectAllChildren(byId('code'));
+        copyFromBox();
       }
     });
   })();
