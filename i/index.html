@@ -36,9 +36,11 @@
   .apple { height: 40px; margin: 0 4px 0 2px; }
   .google { height: 58px; }
   .note { margin: 10px 0 0; font-size: 15px; color: var(--muted); text-wrap: pretty; }
-  .code { margin-top: 10px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
-  .code strong { background: var(--panel); border-radius: 22px; padding: 0 16px; height: 44px; display: inline-flex; align-items: center;
-    font: 900 24px/1 'Big Shoulders Display', 'Arial Narrow', sans-serif; letter-spacing: 0.08em; user-select: all; overflow-wrap: anywhere; }
+  /* The code large enough to type into Loop: in fours, two to a line on a phone, never upper-cased (codes are lowercase). */
+  .code { margin-top: 10px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .code strong { align-self: stretch; background: var(--panel); border-radius: 22px; padding: 12px 18px;
+    font: 900 44px/1.1 'Big Shoulders Display', 'Arial Narrow', sans-serif; letter-spacing: 0.06em; word-spacing: 0.1em;
+    text-wrap: balance; user-select: all; overflow-wrap: anywhere; }
   .code button { height: 44px; padding: 0 18px; border: 0; border-radius: 22px; background: var(--tint); color: var(--text); font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; }
   .open { display: flex; align-items: center; justify-content: center; height: 54px; border-radius: 27px; background: var(--peach); color: var(--on-peach);
     text-decoration: none; font-size: 17px; font-weight: 700; }
@@ -111,7 +113,9 @@
     else if (circle) byId('title').textContent = "You're invited to " + circle;
     document.title = byId('title').textContent;
     byId('open').href = 'streaks://invite/' + code;
-    byId('code').textContent = code;
+    // Shown in fours from the start ("a7f2 9c4e 8b2d 5e1f"), as the app's invite sheet shows it; Loop takes it with
+    // or without the spaces. Copy still copies the bare code.
+    byId('code').textContent = code.match(/.{1,4}/g).join(' ');
     byId('copy').addEventListener('click', function () {
       var button = byId('copy');
       var done = function () { button.textContent = 'Copied'; };
