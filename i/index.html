@@ -24,16 +24,18 @@
   .top { background: var(--hero); color: var(--on-hero); border-radius: 0 0 36px 36px; padding: 56px 24px 30px; text-align: center; }
   .top > * { max-width: 420px; margin-left: auto; margin-right: auto; }
   .disc { width: 96px; height: 96px; border-radius: 50%; background: var(--disc); display: grid; place-items: center; }
-  h1 { font-size: 26px; font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; margin: 18px auto 0; text-wrap: balance; }
+  h1 { font-size: 26px; font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; margin: 18px auto 0; text-wrap: balance; overflow-wrap: anywhere; }
   .lede { margin-top: 8px; font-size: 16px; font-weight: 600; opacity: 0.75; }
   main { max-width: 420px; margin: 0 auto; padding: 26px 20px 40px; display: flex; flex-direction: column; gap: 22px; }
   .step { display: flex; gap: 12px; align-items: flex-start; }
+  .step > div { flex: 1; min-width: 0; }
   .num { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--text); color: var(--page); display: grid; place-items: center; font-size: 14px; font-weight: 800; }
   .step h2 { margin: 2px 0 0; font-size: 17px; font-weight: 700; line-height: 1.3; }
   .badges { margin-top: 10px; display: flex; flex-wrap: wrap; align-items: center; gap: 2px; margin-left: -2px; }
   .badges img { display: block; }
   .apple { height: 40px; margin: 0 4px 0 2px; }
   .google { height: 58px; }
+  .note { margin: 10px 0 0; font-size: 15px; color: var(--muted); text-wrap: pretty; }
   .code { margin-top: 10px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
   .code strong { background: var(--panel); border-radius: 22px; padding: 0 16px; height: 44px; display: inline-flex; align-items: center;
     font: 900 24px/1 'Big Shoulders Display', 'Arial Narrow', sans-serif; letter-spacing: 0.08em; user-select: all; overflow-wrap: anywhere; }
@@ -53,7 +55,7 @@
       <circle cx="75.49" cy="20.51" r="9.12" fill="currentColor"/>
     </svg>
   </div>
-  <h1 id="title">You're invited to a circle on Loop</h1>
+  <h1 id="title">You're invited to Loop</h1>
   <p class="lede" id="lede">Loop is a small app for a group of close friends: chat, plans, streaks and shared money.</p>
 </header>
 <main>
@@ -67,6 +69,8 @@
         <a href="https://testflight.apple.com/join/6u7KxSPW"><img class="apple" src="app-store-badge.svg" alt="Download on the App Store"></a>
         <a href="https://play.google.com/apps/internaltest/4701692484387899367"><img class="google" src="google-play-badge.png" alt="Get it on Google Play"></a>
       </div>
+      <!-- Nothing carries the link through the store install, so it has to be tapped again (or the code typed). -->
+      <p class="note">Get Loop, then come back and tap this link again.</p>
     </div>
   </div>
   <div class="step" id="enter">
@@ -74,10 +78,12 @@
     <div>
       <h2>Open Loop and enter the code</h2>
       <div class="code"><strong id="code"></strong><button id="copy" type="button">Copy</button></div>
+      <!-- Big Shoulders draws a 1 like an l, and a code typed with an l matches no invite. Codes are lowercase hex. -->
+      <p class="note">Invite codes have only the digits 0 to 9 and the letters a to f, so what looks like an l is a one.</p>
     </div>
   </div>
   <a id="open" class="open" href="#">I have Loop: open it</a>
-  <p class="foot" id="foot">The invite works for 14 days.</p>
+  <p class="foot" id="foot">Ask whoever sent it for a new one if it has stopped working.</p>
 </main>
 <script>
   (function () {
@@ -109,10 +115,27 @@
     byId('copy').addEventListener('click', function () {
       var button = byId('copy');
       var done = function () { button.textContent = 'Copied'; };
+      // Copy gives the bare code. Where the Clipboard API is missing or refuses (some in-app browsers), it copies from
+      // an off-screen text box instead; only if that fails too is the code on the page selected, to copy by hand.
+      var copyFromBox = function () {
+        var back = document.activeElement;
+        var box = document.createElement('textarea');
+        box.value = code;
+        box.setAttribute('readonly', '');
+        box.style.cssText = 'position: fixed; top: 0; left: -9999px; font-size: 16px;';
+        document.body.appendChild(box);
+        box.select();
+        box.setSelectionRange(0, code.length);
+        var copied = false;
+        try { copied = document.execCommand('copy'); } catch (e) { copied = false; }
+        document.body.removeChild(box);
+        if (back && back.focus) back.focus();
+        if (copied) done(); else window.getSelection().selectAllChildren(byId('code'));
+      };
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(code).then(done, function () { window.getSelection().selectAllChildren(byId('code')); });
+        navigator.clipboard.writeText(code).then(done, copyFromBox);
       } else {
-        window.getSelection().selectAllChildren(byId('code'));
+        copyFromBox();
       }
     });
   })();
